@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Code Assistant</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        button {
+            background: #38bdf8;
+            cursor: pointer;
+        }
+
+        #answer {
+            background: #1e293b;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>AI Code Documentation Assistant</h1>
+
+<input id="repo" placeholder="Enter GitHub Repo URL" size="50">
+<br>
+<button onclick="analyzeRepo()">Analyze Repo</button>
+
+<br><br>
+
+<button onclick="getInsight()">Explain Project</button>
+
+<br><br>
+
+<input id="question" placeholder="Ask a question" size="50">
+<br>
+<button onclick="ask()">Ask</button>
+
+<br><br>
+
+<button onclick="showDB()">Show DB Data</button>
+
+<div id="answer"></div>
+
+<br><br>
+
+<img id="graph" src="/static/call_graph.png" width="500">
+
+<script>
+
+async function analyzeRepo(){
+    const repo = document.getElementById("repo").value
+    document.getElementById("answer").innerText = "Analyzing repository..."
+
+    const res = await fetch("/analyze_repo", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({repo})
+    })
+
+    const data = await res.json()
+    document.getElementById("answer").innerText = data.status
+
+    refreshGraph()
+}
+
+async function getInsight(){
+    document.getElementById("answer").innerText = "Generating explanation..."
+
+    const res = await fetch("/project_insight")
+    const data = await res.json()
+
+    document.getElementById("answer").innerText = data.result
+}
+
+async function ask(){
+    const question = document.getElementById("question").value
+    document.getElementById("answer").innerText = "Thinking..."
+
+    const res = await fetch("/ask", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({question})
+    })
+
+    const data = await res.json()
+    document.getElementById("answer").innerText = data.answer
+}
+
+async function showDB(){
+    const res = await fetch("/db_data")
+    const data = await res.json()
+
+    document.getElementById("answer").innerText =
+        JSON.stringify(data.data, null, 2)
+}
+
+function refreshGraph(){
+    document.getElementById("graph").src =
+        "/static/call_graph.png?time=" + new Date().getTime()
+}
+
+</script>
+
+</body>
+</html>

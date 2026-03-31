@@ -1,0 +1,6 @@
+analyzed_repo/
+venv/
+.env
+__pycache__/
+*.pyc
+
