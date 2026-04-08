@@ -1,119 +1,894 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>AI Code Assistant</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Code Documentation Assistant</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <style>
-        body {
-            font-family: Arial;
-            background: #0f172a;
-            color: white;
-            text-align: center;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        input, button {
-            padding: 10px;
-            margin: 10px;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1a2847 100%);
+            color: #e2e8f0;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            border-bottom: 2px solid #334155;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #38bdf8;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.1em;
+        }
+
+        .section {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: #38bdf8;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+        }
+
+        .section h2 {
+            color: #38bdf8;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            font-size: 1.3em;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        input {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 16px;
             border-radius: 8px;
-            border: none;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: #e2e8f0;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+        }
+
+        input::placeholder {
+            color: #64748b;
         }
 
         button {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
             background: #38bdf8;
+            color: #0f172a;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            white-space: nowrap;
+        }
+
+        button:hover {
+            background: #22d3ee;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: #64748b;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .button-secondary {
+            background: #334155;
+            color: #e2e8f0;
+        }
+
+        .button-secondary:hover {
+            background: #475569;
         }
 
         #answer {
-            background: #1e293b;
-            padding: 15px;
+            background: #0f172a;
+            padding: 20px;
             margin-top: 20px;
-            border-radius: 10px;
+            border-radius: 8px;
             white-space: pre-wrap;
+            border: 1px solid #334155;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .visualization-container {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #334155;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 600px;
+            overflow: auto;
+        }
+
+        #flowchartContainer {
+            min-height: 800px !important;
+        }
+
+        #graph {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .mermaid {
+            display: flex !important;
+            justify-content: center;
+            margin-top: 20px;
+            background: rgba(15, 23, 42, 0.5);
+            padding: 30px;
+            border-radius: 8px;
+            overflow: auto;
+            min-width: 100%;
+            max-width: 100%;
+            width: 100%;
+        }
+        
+        .mermaid svg {
+            max-width: 100% !important;
+            min-width: 100% !important;
+            height: auto !important;
+        }
+
+        .help-box {
+            background: rgba(56, 189, 248, 0.1);
+            border-left: 4px solid #38bdf8;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        .help-box strong {
+            color: #38bdf8;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .grid > .section {
+            margin-bottom: 0;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background: #334155;
+            color: #e2e8f0;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab-button.active {
+            background: #38bdf8;
+            color: #0f172a;
+        }
+
+        .tab-button:hover {
+            background: #475569;
+        }
+
+        .tab-button.active:hover {
+            background: #22d3ee;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .info-card {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #38bdf8;
+        }
+
+        .info-card h4 {
+            color: #38bdf8;
+            margin: 0 0 8px 0;
+            font-size: 1em;
+        }
+
+        .info-card p {
+            color: #cbd5e1;
+            margin: 0;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .status {
+            padding: 10px 15px;
+            background: #1e293b;
+            border-left: 4px solid #38bdf8;
+            border-radius: 4px;
+            margin-top: 15px;
+            font-size: 0.95em;
+        }
+
+        .status.success {
+            border-left-color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .status.error {
+            border-left-color: #f87171;
+            background: rgba(248, 113, 113, 0.1);
+        }
+
+        .status.loading {
+            border-left-color: #fbbf24;
+            background: rgba(251, 191, 36, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            input {
+                min-width: 100%;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<h1>AI Code Documentation Assistant</h1>
+<div class="container">
+    <header>
+        <h1>⚙️ AI Code Documentation Assistant</h1>
+        <p class="subtitle">Analyze repositories, build call graphs, and understand your codebase with AI</p>
+    </header>
 
-<input id="repo" placeholder="Enter GitHub Repo URL" size="50">
-<br>
-<button onclick="analyzeRepo()">Analyze Repo</button>
+    <!-- Process Flowchart Section -->
+    <div class="section">
+        <h2><span class="icon">📊</span>How It Works</h2>
+        <svg width="100%" height="400" viewBox="0 0 1000 180" style="max-width: 900px; margin: 0 auto; display: block;">
+            <!-- Input Box -->
+            <rect x="20" y="60" width="100" height="60" fill="#38bdf8" rx="8"/>
+            <text x="70" y="95" text-anchor="middle" fill="#0f172a" font-weight="bold">GitHub URL</text>
 
-<br><br>
+            <!-- Arrow -->
+            <path d="M 120 90 L 160 90" stroke="#38bdf8" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
 
-<button onclick="getInsight()">Explain Project</button>
+            <!-- Clone Box -->
+            <rect x="160" y="60" width="100" height="60" fill="#10b981" rx="8"/>
+            <text x="210" y="95" text-anchor="middle" fill="white" font-weight="bold">Clone Repo</text>
 
-<br><br>
+            <!-- Arrow -->
+            <path d="M 260 90 L 300 90" stroke="#38bdf8" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
 
-<input id="question" placeholder="Ask a question" size="50">
-<br>
-<button onclick="ask()">Ask</button>
+            <!-- Parse Box -->
+            <rect x="300" y="60" width="100" height="60" fill="#f59e0b" rx="8"/>
+            <text x="350" y="95" text-anchor="middle" fill="white" font-weight="bold">AST Parse</text>
 
-<br><br>
+            <!-- Arrow -->
+            <path d="M 400 90 L 440 90" stroke="#38bdf8" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
 
-<button onclick="showDB()">Show DB Data</button>
+            <!-- Store Box -->
+            <rect x="440" y="60" width="100" height="60" fill="#8b5cf6" rx="8"/>
+            <text x="490" y="95" text-anchor="middle" fill="white" font-weight="bold">Store DB</text>
 
-<div id="answer"></div>
+            <!-- Arrow -->
+            <path d="M 540 90 L 580 90" stroke="#38bdf8" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
 
-<br><br>
+            <!-- Graph Box -->
+            <rect x="580" y="60" width="100" height="60" fill="#06b6d4" rx="8"/>
+            <text x="630" y="95" text-anchor="middle" fill="white" font-weight="bold">Call Graph</text>
 
-<img id="graph" src="/static/call_graph.png" width="500">
+            <!-- Arrow -->
+            <path d="M 680 90 L 720 90" stroke="#38bdf8" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+            <!-- RAG Box -->
+            <rect x="720" y="60" width="100" height="60" fill="#ec4899" rx="8"/>
+            <text x="770" y="95" text-anchor="middle" fill="white" font-weight="bold">RAG Ready</text>
+
+            <!-- Arrow -->
+            <path d="M 820 90 L 860 90" stroke="#38bdf8" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+            <!-- AI Box -->
+            <rect x="860" y="60" width="100" height="60" fill="#38bdf8" rx="8"/>
+            <text x="910" y="95" text-anchor="middle" fill="#0f172a" font-weight="bold">Ask AI</text>
+
+            <!-- Arrow marker definition -->
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                    <polygon points="0 0, 10 3, 0 6" fill="#38bdf8"/>
+                </marker>
+            </defs>
+        </svg>
+    </div>
+
+    <div class="grid">
+        <!-- Repository Analysis Section -->
+        <div class="section">
+            <h2><span class="icon">📦</span>Analyze Repository</h2>
+            <p style="color: #cbd5e1; margin-bottom: 15px;">Clone and analyze a GitHub repository to extract code structure and dependencies.</p>
+            <div class="input-group">
+                <input id="repo" placeholder="Enter GitHub Repo URL (e.g., https://github.com/user/repo)">
+                <button onclick="analyzeRepo()" id="analyzeBtn">Analyze</button>
+            </div>
+            <div id="analyzeStatus"></div>
+        </div>
+
+        <!-- Project Insight Section -->
+        <div class="section">
+            <h2><span class="icon">🔍</span>AI Project Summary</h2>
+            <div style="background: #0f172a; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #06b6d4;">
+                <p style="color: #cbd5e1; margin: 0; font-size: 0.95em;">
+                    <strong>What it does:</strong> Uses AI to analyze the entire codebase and generate a human-readable summary.
+                </p>
+                <p style="color: #94a3b8; margin: 10px 0 0 0; font-size: 0.85em;">
+                    💡 <strong>Includes:</strong> Project overview, key functions, data flow, and beginner-friendly explanations.
+                </p>
+            </div>
+            <button onclick="getInsight()" style="width: 100%; padding: 14px; background: #06b6d4; font-size: 1.05em;">Generate AI Summary</button>
+            <div id="insightStatus"></div>
+        </div>
+    </div>
+
+    <!-- Question & Answer Section -->
+    <div class="section">
+        <h2><span class="icon">💬</span>Ask AI Questions</h2>
+        <div style="background: #0f172a; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #8b5cf6;">
+            <p style="color: #cbd5e1; margin: 0; font-size: 0.95em;">
+                <strong>What it does:</strong> Ask questions about the analyzed code and get AI-powered answers based on actual code context.
+            </p>
+            <p style="color: #94a3b8; margin: 10px 0 0 0; font-size: 0.85em;">
+                💡 <strong>Examples:</strong> "What does the main function do?", "Which functions are called the most?", "How does authentication work?"
+            </p>
+        </div>
+        <div class="input-group">
+            <input id="question" placeholder="Example: What does the main function do? Or: Explain the database structure...">
+            <button onclick="ask()" id="askBtn">Ask</button>
+        </div>
+        <div id="askStatus"></div>
+    </div>
+
+    <!-- Visualizations Section -->
+    <div class="section">
+        <h2><span class="icon">📈</span>Code Visualizations & Analysis</h2>
+        <p style="color: #cbd5e1; margin-bottom: 20px;">Explore your codebase through multiple visual perspectives to understand function relationships and dependencies.</p>
+        
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('callgraph')">📊 Call Graph</button>
+            <button class="tab-button" onclick="switchTab('flowchart')">🔄 Function Flow</button>
+            <button class="tab-button" onclick="switchTab('dbdata')">📋 Function List</button>
+        </div>
+
+        <!-- Call Graph Tab -->
+        <div id="callgraph" class="tab-content active">
+            <div style="background: #0f172a; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #38bdf8;">
+                <h3 style="color: #38bdf8; margin: 0 0 10px 0;">📊 Call Graph</h3>
+                <p style="color: #cbd5e1; margin: 0; font-size: 0.95em;">
+                    <strong>What it shows:</strong> A network diagram showing which functions call which other functions. 
+                    Nodes represent functions, and arrows show call relationships.
+                </p>
+                <p style="color: #94a3b8; margin: 10px 0 0 0; font-size: 0.85em;">
+                    💡 <strong>Use this to:</strong> Understand the overall architecture and how different parts of the code depend on each other.
+                </p>
+            </div>
+            <div class="visualization-container">
+                <img id="graph" src="/static/call_graph.png" alt="Call Graph Visualization" style="max-width: 100%; height: auto;">
+            </div>
+        </div>
+
+        <!-- Flowchart Tab -->
+        <div id="flowchart" class="tab-content">
+            <div style="background: #0f172a; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #10b981;">
+                <h3 style="color: #10b981; margin: 0 0 10px 0;">🔄 Function Flow Chart</h3>
+                <p style="color: #cbd5e1; margin: 0; font-size: 0.95em;">
+                    <strong>What it shows:</strong> A flowchart showing how functions call each other. 
+                    Each box is a function, and arrows show the flow from one function to another.
+                </p>
+                <p style="color: #94a3b8; margin: 10px 0 0 0; font-size: 0.85em;">
+                    💡 <strong>Use this to:</strong> Trace the execution path and see which functions are called in sequence.
+                </p>
+            </div>
+            <button onclick="loadFlowchart()" style="width: 100%; margin-bottom: 15px; padding: 14px; background: #10b981; font-size: 1.05em;">Generate Flow Chart</button>
+            <div id="flowchartContainer" class="visualization-container" style="min-height: 200px; background: #0f172a; display: flex; align-items: center; justify-content: center;">
+                <div style="text-align: center;">
+                    <p style="color: #94a3b8; margin: 0;">📋 Click "Generate Flow Chart" to create a visual diagram</p>
+                    <p style="color: #64748b; margin: 8px 0 0 0; font-size: 0.9em;">This shows up to 20 functions and their relationships</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Database Tab -->
+        <div id="dbdata" class="tab-content">
+            <div style="background: #0f172a; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #f59e0b;">
+                <h3 style="color: #f59e0b; margin: 0 0 10px 0;">📋 Function List</h3>
+                <p style="color: #cbd5e1; margin: 0; font-size: 0.95em;">
+                    <strong>What it shows:</strong> A complete table of all parsed functions and the other functions they call.
+                </p>
+                <p style="color: #94a3b8; margin: 10px 0 0 0; font-size: 0.85em;">
+                    💡 <strong>Use this to:</strong> Search for specific functions and see their immediate dependencies in detail.
+                </p>
+            </div>
+            <button onclick="showDB()" style="width: 100%; margin-bottom: 15px; padding: 14px; background: #f59e0b; font-size: 1.05em;">Load Function List</button>
+            <div id="dbTable" class="visualization-container" style="min-height: 200px; background: #0f172a; display: flex; align-items: center; justify-content: center;">
+                <div style="text-align: center;">
+                    <p style="color: #94a3b8; margin: 0;">📋 Click "Load Function List" to see all parsed functions</p>
+                    <p style="color: #64748b; margin: 8px 0 0 0; font-size: 0.9em;">Shows function names and their call dependencies</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="section">
+        <h2><span class="icon">✨</span>Output & Results</h2>
+        <p style="color: #cbd5e1; margin-bottom: 15px;">Results from analysis, AI summaries, and answers will appear below:</p>
+        <div id="answer" style="background: #0f172a; padding: 20px; border-radius: 8px; border: 1px solid #334155; max-height: 500px; overflow-y: auto;">
+            <p style="color: #64748b; text-align: center; padding: 20px; margin: 0;">
+                📝 Results will appear here when you perform actions above.
+            </p>
+        </div>
+    </div>
+</div>
 
 <script>
 
-async function analyzeRepo(){
-    const repo = document.getElementById("repo").value
-    document.getElementById("answer").innerText = "Analyzing repository..."
+    let analysisInterval = null;
 
-    const res = await fetch("/analyze_repo", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({repo})
+    function switchTab(tabName) {
+        // Hide all tabs
+        const tabs = document.querySelectorAll('.tab-content');
+        tabs.forEach(tab => tab.classList.remove('active'));
+        
+        // Remove active class from all buttons
+        const buttons = document.querySelectorAll('.tab-button');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        
+        // Show selected tab
+        document.getElementById(tabName).classList.add('active');
+        
+        // Add active class to clicked button
+        event.target.classList.add('active');
+    }
+
+    async function checkAnalysisProgress() {
+        try {
+            const res = await fetch('/analysis_status');
+            const data = await res.json();
+            
+            const status = document.getElementById("analyzeStatus");
+            
+            if (data.status === "completed") {
+                status.innerHTML = '<div class="status success">✅ Repository analyzed successfully!</div>';
+                clearInterval(analysisInterval);
+                refreshGraph();
+            } else if (data.status === "idle") {
+                // Do nothing
+            } else if (data.status.includes("Error")) {
+                status.innerHTML = '<div class="status error">❌ ' + data.status + '</div>';
+                clearInterval(analysisInterval);
+            } else {
+                // Show progress
+                const progressBar = Math.round(data.progress);
+                status.innerHTML = `
+                    <div class="status loading">
+                        <div style="margin-bottom: 10px;">⏳ ${data.status}</div>
+                        <div style="background: #0f172a; border-radius: 4px; height: 24px; overflow: hidden;">
+                            <div style="background: linear-gradient(90deg, #38bdf8, #22d3ee); height: 100%; width: ${progressBar}%; display: flex; align-items: center; justify-content: center; color: #0f172a; font-weight: bold; font-size: 12px;">
+                                ${progressBar}%
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        } catch (error) {
+            console.error('Error checking status:', error);
+        }
+    }
+
+    async function analyzeRepo(){
+        const repo = document.getElementById("repo").value
+        const status = document.getElementById("analyzeStatus")
+        const answerDiv = document.getElementById("answer")
+        
+        if (!repo.trim()) {
+            status.innerHTML = '<div class="status error">⚠️ Please enter a GitHub repository URL</div>'
+            return
+        }
+        
+        status.innerHTML = '<div class="status loading">⏳ Starting analysis...</div>'
+        answerDiv.innerText = ""
+        
+        try {
+            const res = await fetch("/analyze_repo", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({repo})
+            })
+
+            const data = await res.json()
+            status.innerHTML = '<div class="status loading">⏳ Analysis started. Processing in background...</div>'
+            
+            // Start polling for progress
+            clearInterval(analysisInterval);
+            analysisInterval = setInterval(checkAnalysisProgress, 1000);
+            
+        } catch (error) {
+            status.innerHTML = '<div class="status error">❌ Error: ' + error.message + '</div>'
+            clearInterval(analysisInterval);
+        }
+    }
+
+    async function loadFlowchart() {
+        const container = document.getElementById('flowchartContainer');
+        container.innerHTML = '<div class="status loading">⏳ Generating flowchart...</div>';
+
+        try {
+            const res = await fetch('/generate_flowchart');
+            const data = await res.json();
+
+            if (data.error) {
+                container.innerHTML = `
+                    <div class="status error">
+                        <strong>⚠️ Flowchart Generation Failed</strong><br>
+                        ${data.error}<br><br>
+                        <small>This might happen if the database doesn't have enough data. Try analyzing a repository first.</small>
+                    </div>
+                `;
+                return;
+            }
+
+            if (!data.flowchart) {
+                container.innerHTML = '<div class="status error">❌ No flowchart data received</div>';
+                return;
+            }
+
+            // Clear container and set proper sizing
+            container.innerHTML = '';
+            container.style.display = 'block';
+            container.style.width = '100%';
+            container.style.minHeight = '800px';
+            
+            // Add description first
+            if (data.description) {
+                const descDiv = document.createElement('div');
+                descDiv.innerHTML = data.description;
+                descDiv.style.marginBottom = '20px';
+                container.appendChild(descDiv);
+            }
+            
+            // Create and add mermaid diagram
+            const mermaidDiv = document.createElement('div');
+            mermaidDiv.className = 'mermaid';
+            mermaidDiv.style.display = 'block';
+            mermaidDiv.style.width = '100%';
+            mermaidDiv.style.minHeight = '700px';
+            mermaidDiv.style.overflow = 'visible';
+            mermaidDiv.textContent = data.flowchart;
+            
+            container.appendChild(mermaidDiv);
+            
+            // Render with mermaid at full size
+            if (window.mermaid) {
+                try {
+                    await mermaid.run();
+                    // Force resize after rendering
+                    setTimeout(() => {
+                        const svg = mermaidDiv.querySelector('svg');
+                        if (svg) {
+                            svg.style.maxWidth = '100%';
+                            svg.style.height = 'auto';
+                        }
+                    }, 100);
+                } catch (mermaidError) {
+                    console.error('Mermaid render error:', mermaidError);
+                    showFlowchartFallback(data.flowchart, data.description);
+                }
+            }
+            
+        } catch (error) {
+            console.error('Flowchart fetch error:', error);
+            container.innerHTML = `
+                <div class="status error">
+                    <strong>❌ Error loading flowchart</strong><br>
+                    ${error.message}<br><br>
+                    <small>Check the browser console for more details.</small>
+                </div>
+            `;
+        }
+    }
+
+    function showFlowchartFallback(flowchartCode, description) {
+        const container = document.getElementById('flowchartContainer');
+        let html = description ? description : '';
+        html += `
+            <div style="background: #0f172a; padding: 20px; border-radius: 8px; border: 1px solid #334155; width: 100%; margin-top: 15px;">
+                <p style="color: #fbbf24; margin: 0 0 15px 0;"><strong>📋 Text-based Function Flow:</strong></p>
+                <pre style="background: #1e293b; color: #cbd5e1; padding: 15px; border-radius: 6px; overflow-x: auto; margin: 0; font-size: 0.85em; line-height: 1.6;">` + 
+                    flowchartCode.replace(/</g, '&lt;').replace(/>/g, '&gt;') + 
+                `</pre>
+            </div>
+        `;
+        container.innerHTML = html;
+    }
+    
+
+    function formatOutput(text) {
+        // Format output text with proper styling for bullets, paragraphs, etc.
+        if (!text) return '';
+        
+        let html = '<div style="line-height: 1.8; color: #cbd5e1;">';
+        
+        // First, replace bold headers (**TEXT**) with section markers
+        text = text.replace(/\*\*([^*]+)\*\*/g, '\n\n<<<HEADER>>>$1<<<\/HEADER>>>\n');
+        
+        // Split by double newlines for paragraphs
+        const paragraphs = text.split(/\n\n+/);
+        
+        paragraphs.forEach(para => {
+            para = para.trim();
+            if (!para) return;
+            
+            // Check if it's a section header marker
+            if (para.includes('<<<HEADER>>>')) {
+                const headerText = para.replace(/<<<HEADER>>>|<\/HEADER>>>/g, '').trim();
+                html += `<h3 style="margin: 25px 0 12px 0; color: #38bdf8; font-size: 1.2em; font-weight: 700; border-bottom: 2px solid #334155; padding-bottom: 8px;">${headerText}</h3>`;
+            }
+            // Check if it's a numbered list
+            else if (/^\d+\.\s/.test(para)) {
+                html += '<ol style="margin: 15px 0; padding-left: 30px;">';
+                const items = para.split(/\n/);
+                items.forEach(item => {
+                    item = item.trim();
+                    if (item && /^\d+\./.test(item)) {
+                        // Remove number prefix and extra markers
+                        item = item.replace(/^\d+\.\s*/, '').trim();
+                        item = item.replace(/^[\s\-→•]+/, '').trim();
+                        html += `<li style="margin-bottom: 10px; color: #cbd5e1; line-height: 1.5;">${item}</li>`;
+                    }
+                });
+                html += '</ol>';
+            }
+            // Check if it's a bullet list with bullet markers (•, -, →)
+            else if (/^[•\-→]\s/.test(para)) {
+                html += '<ul style="margin: 15px 0; padding-left: 25px; list-style: none;">';
+                const items = para.split(/\n/);
+                items.forEach(item => {
+                    item = item.trim();
+                    if (item && /^[•\-→]/.test(item)) {
+                        // Remove bullet marker
+                        item = item.replace(/^[•\-→]\s*/, '').trim();
+                        html += `<li style="margin-bottom: 10px; color: #cbd5e1; line-height: 1.5;">• ${item}</li>`;
+                    }
+                });
+                html += '</ul>';
+            }
+            // Regular paragraph
+            else {
+                // Preserve simple formatting, remove excessive arrows
+                para = para.replace(/\s*→\s*/g, ' ').replace(/\s+/g, ' ').trim();
+                if (para) {
+                    html += `<p style="margin: 15px 0; color: #cbd5e1; line-height: 1.6;">${para}</p>`;
+                }
+            }
+        });
+        
+        html += '</div>';
+        return html;
+    }
+    
+    function displayFormattedOutput(htmlContent) {
+        const answerDiv = document.getElementById("answer");
+        answerDiv.innerHTML = htmlContent;
+    }
+
+    async function getInsight(){
+        const status = document.getElementById("insightStatus")
+        const answerDiv = document.getElementById("answer")
+        
+        status.innerHTML = '<div class="status loading">⏳ Generating project insight...</div>'
+        answerDiv.innerHTML = '<p style="color: #64748b; text-align: center; padding: 20px;">Analyzing code...</p>'
+
+        try {
+            const res = await fetch("/project_insight")
+            const data = await res.json()
+
+            const formatted = formatOutput(data.result)
+            displayFormattedOutput(formatted)
+            status.innerHTML = '<div class="status success">✅ Insight generated successfully</div>'
+        } catch (error) {
+            status.innerHTML = '<div class="status error">❌ Error: ' + error.message + '</div>'
+        }
+    }
+
+    async function ask(){
+        const question = document.getElementById("question").value
+        const status = document.getElementById("askStatus")
+        const answerDiv = document.getElementById("answer")
+        
+        if (!question.trim()) {
+            status.innerHTML = '<div class="status error">⚠️ Please enter a question</div>'
+            return
+        }
+        
+        status.innerHTML = '<div class="status loading">⏳ Thinking...</div>'
+        answerDiv.innerHTML = '<p style="color: #64748b; text-align: center; padding: 20px;">Processing your question...</p>'
+
+        try {
+            const res = await fetch("/ask", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({question})
+            })
+
+            const data = await res.json()
+            const formatted = formatOutput(data.answer)
+            displayFormattedOutput(formatted)
+            status.innerHTML = '<div class="status success">✅ Answer ready</div>'
+        } catch (error) {
+            status.innerHTML = '<div class="status error">❌ Error: ' + error.message + '</div>'
+        }
+    }
+
+    async function showDB(){
+        const dbDiv = document.getElementById("dbTable")
+        dbDiv.innerHTML = '<div class="status loading">⏳ Loading database data...</div>'
+
+        try {
+            const res = await fetch("/db_data")
+            const data = await res.json()
+
+            if (data.data.length === 0) {
+                dbDiv.innerHTML = '<div class="status error">No data available. Analyze a repository first.</div>'
+                return
+            }
+
+            let html = '<table style="width: 100%; border-collapse: collapse;">'
+            html += '<tr style="background: #334155; border-bottom: 2px solid #475569;">'
+            html += '<th style="padding: 12px; text-align: left;">Function Name</th>'
+            html += '<th style="padding: 12px; text-align: left;">Calls</th>'
+            html += '</tr>'
+
+            data.data.forEach(row => {
+                html += '<tr style="border-bottom: 1px solid #334155;">'
+                html += '<td style="padding: 10px; color: #38bdf8;">' + row[0] + '</td>'
+                html += '<td style="padding: 10px; color: #cbd5e1; font-size: 0.9em;">' + row[1] + '</td>'
+                html += '</tr>'
+            })
+
+            html += '</table>'
+            dbDiv.innerHTML = html
+        } catch (error) {
+            dbDiv.innerHTML = '<div class="status error">❌ Error: ' + error.message + '</div>'
+        }
+    }
+
+    function refreshGraph(){
+        document.getElementById("graph").src = 
+            "/static/call_graph.png?time=" + new Date().getTime()
+    }
+
+    // Initialize mermaid and on page load
+    window.addEventListener('load', function() {
+        if (window.mermaid) {
+            mermaid.initialize({ 
+                startOnLoad: false,
+                theme: 'dark',
+                securityLevel: 'loose',
+                flowchart: { 
+                    useMaxWidth: true,
+                    htmlLabels: true,
+                    curve: 'basis'
+                },
+                diagram: {
+                    useMaxWidth: true
+                }
+            });
+            // Configure mermaid to render at larger scale
+            mermaid.contentLoaded();
+        }
+        console.log('✅ AI Code Documentation Assistant loaded');
     })
-
-    const data = await res.json()
-    document.getElementById("answer").innerText = data.status
-
-    refreshGraph()
-}
-
-async function getInsight(){
-    document.getElementById("answer").innerText = "Generating explanation..."
-
-    const res = await fetch("/project_insight")
-    const data = await res.json()
-
-    document.getElementById("answer").innerText = data.result
-}
-
-async function ask(){
-    const question = document.getElementById("question").value
-    document.getElementById("answer").innerText = "Thinking..."
-
-    const res = await fetch("/ask", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({question})
-    })
-
-    const data = await res.json()
-    document.getElementById("answer").innerText = data.answer
-}
-
-async function showDB(){
-    const res = await fetch("/db_data")
-    const data = await res.json()
-
-    document.getElementById("answer").innerText =
-        JSON.stringify(data.data, null, 2)
-}
-
-function refreshGraph(){
-    document.getElementById("graph").src =
-        "/static/call_graph.png?time=" + new Date().getTime()
-}
 
 </script>
 

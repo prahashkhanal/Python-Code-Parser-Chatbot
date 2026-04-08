@@ -63,28 +63,71 @@ class CodeAnalyzer(ast.NodeVisitor):
 
 
 def analyze_file(file_path):
-    with open(file_path, "r", encoding="utf-8") as f:
-        tree = ast.parse(f.read())
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            content = f.read()
+        
+        tree = ast.parse(content)
 
-    analyzer = CodeAnalyzer()
-    analyzer.visit(tree)
+        analyzer = CodeAnalyzer()
+        analyzer.visit(tree)
 
-    return {
-        "file": file_path,
-        "classes": analyzer.classes,
-        "functions": analyzer.functions,
-        "imports": analyzer.imports,
-    }
+        return {
+            "file": file_path,
+            "classes": analyzer.classes,
+            "functions": analyzer.functions,
+            "imports": analyzer.imports,
+            "error": None
+        }
+    except SyntaxError as e:
+        print(f"⚠️  Syntax error in {file_path}: {e}")
+        return {
+            "file": file_path,
+            "classes": [],
+            "functions": [],
+            "imports": [],
+            "error": f"Syntax error: {e}"
+        }
+    except UnicodeDecodeError:
+        print(f"⚠️  Encoding error in {file_path}")
+        return {
+            "file": file_path,
+            "classes": [],
+            "functions": [],
+            "imports": [],
+            "error": "Encoding error"
+        }
+    except Exception as e:
+        print(f"⚠️  Error analyzing {file_path}: {e}")
+        return {
+            "file": file_path,
+            "classes": [],
+            "functions": [],
+            "imports": [],
+            "error": str(e)
+        }
 
 
 def analyze_directory(directory):
     results = []
+    error_count = 0
+    success_count = 0
 
     for root, _, files in os.walk(directory):
         for file in files:
             if file.endswith(".py"):
                 path = os.path.join(root, file)
-                results.append(analyze_file(path))
+                result = analyze_file(path)
+                results.append(result)
+                
+                if result.get("error"):
+                    error_count += 1
+                else:
+                    success_count += 1
+
+    print(f"✅ Successfully analyzed {success_count} files")
+    if error_count > 0:
+        print(f"⚠️  Skipped {error_count} files due to errors")
 
     return results
 

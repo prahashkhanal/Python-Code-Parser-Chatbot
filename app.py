@@ -8,6 +8,10 @@ if __name__ == "__main__":
     data = analyze_directory("sample_project")
 
     for file in data:
+        # Skip files with parsing errors
+        if file.get("error"):
+            continue
+
         file_id = insert_file(file["file"])
 
         # Standalone functions

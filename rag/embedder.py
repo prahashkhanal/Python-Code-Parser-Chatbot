@@ -25,7 +25,19 @@ def build_vector_store():
         for row in data
     ]
 
+    # Handle empty database case
+    if not texts:
+        print("⚠️  No functions in database. Creating empty vector store.")
+        dimension = 384  # Default dimension for all-MiniLM-L6-v2
+        index = faiss.IndexFlatL2(dimension)
+        return index, texts
+
     embeddings = model.encode(texts)
+    
+    # Handle case where embeddings might be 1D
+    if len(embeddings.shape) == 1:
+        embeddings = embeddings.reshape(-1, 1)
+    
     dimension = embeddings.shape[1]
 
     index = faiss.IndexFlatL2(dimension)
@@ -35,7 +47,10 @@ def build_vector_store():
 
 
 def search(query, index, texts, top_k=3):
+    if not texts:
+        return []
+    
     query_embedding = model.encode([query])
-    D, I = index.search(np.array(query_embedding), top_k)
-    results = [texts[i] for i in I[0]]
+    D, I = index.search(np.array(query_embedding), min(top_k, len(texts)))
+    results = [texts[i] for i in I[0] if i < len(texts)]
     return results
