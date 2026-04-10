@@ -1,4 +1,4 @@
-# AI Code Documentation Assistant - Setup & Run Guide
+git# AI Code Documentation Assistant - Setup & Run Guide
 
 ## Prerequisites
 

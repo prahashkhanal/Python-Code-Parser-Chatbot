@@ -35,15 +35,6 @@
 📄 **Auto Documentation Generator**
 
 ---
-
-## 🖼️ Screenshots (Add Your Own)
-
-> 📌 Add screenshots here after running project
-/static/call_graph.png
-/templates/index.html UI preview
-
----
-
 ## 🏗️ Project Structure
 Python-Code-Parser-Chatbot/
 │
