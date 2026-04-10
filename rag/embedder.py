@@ -5,7 +5,10 @@ import sqlite3
 
 DB_NAME = "project_knowledge.db"
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
+try:
+    model = SentenceTransformer('all-MiniLM-L6-v2')
+except Exception as e:
+    print("Model load error:", e)
 
 
 def fetch_functions():

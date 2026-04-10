@@ -1,0 +1,494 @@
+{
+  "nodes": [
+    {
+      "id": "merge_cookies"
+    },
+    {
+      "id": "iter_slices"
+    },
+    {
+      "id": "unquote_header_value"
+    },
+    {
+      "id": "cookiejar_from_dict"
+    },
+    {
+      "id": "info"
+    },
+    {
+      "id": "RequestsCookieJar.set"
+    },
+    {
+      "id": "TestRequests.test_generic_cookiejar_works"
+    },
+    {
+      "id": "httpbin_secure"
+    },
+    {
+      "id": "test_string"
+    },
+    {
+      "id": "TestRequests.test_set_basicauth"
+    },
+    {
+      "id": "morsel_to_cookie"
+    },
+    {
+      "id": "test_super_len_with_tell"
+    },
+    {
+      "id": "get_netrc_auth"
+    },
+    {
+      "id": "merge_setting"
+    },
+    {
+      "id": "urldefragauth"
+    },
+    {
+      "id": "extract_zipped_paths"
+    },
+    {
+      "id": "address_in_network"
+    },
+    {
+      "id": "override_environ"
+    },
+    {
+      "id": "TestRequests.test_respect_proxy_env_on_get"
+    },
+    {
+      "id": "test_prepared_request_with_hook_is_pickleable"
+    },
+    {
+      "id": "should_bypass_proxies"
+    },
+    {
+      "id": "dotted_netmask"
+    },
+    {
+      "id": "test_super_len_with__len__"
+    },
+    {
+      "id": "TestRequests.test_respect_proxy_env_on_request"
+    },
+    {
+      "id": "prepend_scheme_if_needed"
+    },
+    {
+      "id": "test_urldefragauth"
+    },
+    {
+      "id": "test_super_len_with_fileno"
+    },
+    {
+      "id": "_parse_content_type_header"
+    },
+    {
+      "id": "parse_dict_header"
+    },
+    {
+      "id": "to_key_val_list"
+    },
+    {
+      "id": "test_unquote_unreserved"
+    },
+    {
+      "id": "SessionRedirectMixin.resolve_redirects"
+    },
+    {
+      "id": "test_iter_slices"
+    },
+    {
+      "id": "unquote_unreserved"
+    },
+    {
+      "id": "parse_header_links"
+    },
+    {
+      "id": "test_to_native_string"
+    },
+    {
+      "id": "test_should_bypass_proxies"
+    },
+    {
+      "id": "get_auth_from_url"
+    },
+    {
+      "id": "extract_cookies_to_jar"
+    },
+    {
+      "id": "test_select_proxies"
+    },
+    {
+      "id": "create_cookie"
+    },
+    {
+      "id": "TestRequests.test_respect_proxy_env_on_send_self_prepared_request"
+    },
+    {
+      "id": "Server.basic_response_server"
+    },
+    {
+      "id": "TestRequests.test_proxy_error_on_bad_url"
+    },
+    {
+      "id": "super_len"
+    },
+    {
+      "id": "test_get_auth_from_url"
+    },
+    {
+      "id": "test_tarfile_member"
+    },
+    {
+      "id": "guess_filename"
+    },
+    {
+      "id": "get_environ_proxies"
+    },
+    {
+      "id": "TestRequests.test_param_cookiejar_works"
+    },
+    {
+      "id": "set_environ"
+    },
+    {
+      "id": "test_auth_is_stripped_on_http_downgrade"
+    },
+    {
+      "id": "get_encoding_from_headers"
+    },
+    {
+      "id": "default_hooks"
+    },
+    {
+      "id": "httpbin"
+    },
+    {
+      "id": "to_native_string"
+    },
+    {
+      "id": "requote_uri"
+    },
+    {
+      "id": "test_dotted_netmask"
+    },
+    {
+      "id": "remove_cookie_by_name"
+    },
+    {
+      "id": "test_parse_header_links"
+    },
+    {
+      "id": "HTTPDigestAuth.handle_401"
+    },
+    {
+      "id": "test_parse_dict_header"
+    },
+    {
+      "id": "is_valid_cidr"
+    },
+    {
+      "id": "_basic_auth_str"
+    },
+    {
+      "id": "get_encodings_from_content"
+    },
+    {
+      "id": "TestRequests.test_respect_proxy_env_on_send_session_prepared_request"
+    },
+    {
+      "id": "test_super_len_with_no_matches"
+    },
+    {
+      "id": "guess_json_utf"
+    },
+    {
+      "id": "test_prepend_scheme_if_needed"
+    },
+    {
+      "id": "prepare_url"
+    },
+    {
+      "id": "test_get_encoding_from_headers"
+    },
+    {
+      "id": "test__parse_content_type_header"
+    },
+    {
+      "id": "is_ipv4_address"
+    },
+    {
+      "id": "consume_socket_content"
+    },
+    {
+      "id": "test_requote_uri_with_unquoted_percents"
+    },
+    {
+      "id": "test_should_bypass_proxies_pass_only_hostname"
+    },
+    {
+      "id": "TestRequests.test_respect_proxy_env_on_send_with_redirects"
+    },
+    {
+      "id": "TestRequests.test_cookielib_cookiejar_on_redirect"
+    },
+    {
+      "id": "test_file"
+    },
+    {
+      "id": "select_proxy"
+    }
+  ],
+  "links": [
+    {
+      "source": "merge_cookies",
+      "target": "cookiejar_from_dict"
+    },
+    {
+      "source": "cookiejar_from_dict",
+      "target": "create_cookie"
+    },
+    {
+      "source": "RequestsCookieJar.set",
+      "target": "remove_cookie_by_name"
+    },
+    {
+      "source": "RequestsCookieJar.set",
+      "target": "morsel_to_cookie"
+    },
+    {
+      "source": "RequestsCookieJar.set",
+      "target": "create_cookie"
+    },
+    {
+      "source": "TestRequests.test_generic_cookiejar_works",
+      "target": "cookiejar_from_dict"
+    },
+    {
+      "source": "TestRequests.test_generic_cookiejar_works",
+      "target": "httpbin"
+    },
+    {
+      "source": "httpbin_secure",
+      "target": "prepare_url"
+    },
+    {
+      "source": "test_string",
+      "target": "super_len"
+    },
+    {
+      "source": "TestRequests.test_set_basicauth",
+      "target": "httpbin"
+    },
+    {
+      "source": "TestRequests.test_set_basicauth",
+      "target": "_basic_auth_str"
+    },
+    {
+      "source": "morsel_to_cookie",
+      "target": "create_cookie"
+    },
+    {
+      "source": "test_super_len_with_tell",
+      "target": "super_len"
+    },
+    {
+      "source": "merge_setting",
+      "target": "to_key_val_list"
+    },
+    {
+      "source": "TestRequests.test_respect_proxy_env_on_get",
+      "target": "override_environ"
+    },
+    {
+      "source": "TestRequests.test_respect_proxy_env_on_get",
+      "target": "httpbin"
+    },
+    {
+      "source": "test_prepared_request_with_hook_is_pickleable",
+      "target": "httpbin"
+    },
+    {
+      "source": "test_prepared_request_with_hook_is_pickleable",
+      "target": "default_hooks"
+    },
+    {
+      "source": "test_super_len_with__len__",
+      "target": "super_len"
+    },
+    {
+      "source": "TestRequests.test_respect_proxy_env_on_request",
+      "target": "override_environ"
+    },
+    {
+      "source": "TestRequests.test_respect_proxy_env_on_request",
+      "target": "httpbin"
+    },
+    {
+      "source": "test_urldefragauth",
+      "target": "urldefragauth"
+    },
+    {
+      "source": "test_super_len_with_fileno",
+      "target": "super_len"
+    },
+    {
+      "source": "test_unquote_unreserved",
+      "target": "unquote_unreserved"
+    },
+    {
+      "source": "SessionRedirectMixin.resolve_redirects",
+      "target": "to_native_string"
+    },
+    {
+      "source": "SessionRedirectMixin.resolve_redirects",
+      "target": "requote_uri"
+    },
+    {
+      "source": "SessionRedirectMixin.resolve_redirects",
+      "target": "extract_cookies_to_jar"
+    },
+    {
+      "source": "SessionRedirectMixin.resolve_redirects",
+      "target": "merge_cookies"
+    },
+    {
+      "source": "test_iter_slices",
+      "target": "iter_slices"
+    },
+    {
+      "source": "test_to_native_string",
+      "target": "to_native_string"
+    },
+    {
+      "source": "test_should_bypass_proxies",
+      "target": "should_bypass_proxies"
+    },
+    {
+      "source": "test_select_proxies",
+      "target": "select_proxy"
+    },
+    {
+      "source": "TestRequests.test_respect_proxy_env_on_send_self_prepared_request",
+      "target": "override_environ"
+    },
+    {
+      "source": "TestRequests.test_respect_proxy_env_on_send_self_prepared_request",
+      "target": "httpbin"
+    },
+    {
+      "source": "TestRequests.test_proxy_error_on_bad_url",
+      "target": "httpbin_secure"
+    },
+    {
+      "source": "TestRequests.test_proxy_error_on_bad_url",
+      "target": "httpbin"
+    },
+    {
+      "source": "test_get_auth_from_url",
+      "target": "get_auth_from_url"
+    },
+    {
+      "source": "test_tarfile_member",
+      "target": "super_len"
+    },
+    {
+      "source": "TestRequests.test_param_cookiejar_works",
+      "target": "cookiejar_from_dict"
+    },
+    {
+      "source": "TestRequests.test_param_cookiejar_works",
+      "target": "httpbin"
+    },
+    {
+      "source": "test_auth_is_stripped_on_http_downgrade",
+      "target": "httpbin_secure"
+    },
+    {
+      "source": "test_auth_is_stripped_on_http_downgrade",
+      "target": "httpbin"
+    },
+    {
+      "source": "httpbin",
+      "target": "prepare_url"
+    },
+    {
+      "source": "test_dotted_netmask",
+      "target": "dotted_netmask"
+    },
+    {
+      "source": "test_parse_header_links",
+      "target": "parse_header_links"
+    },
+    {
+      "source": "HTTPDigestAuth.handle_401",
+      "target": "parse_dict_header"
+    },
+    {
+      "source": "HTTPDigestAuth.handle_401",
+      "target": "extract_cookies_to_jar"
+    },
+    {
+      "source": "test_parse_dict_header",
+      "target": "parse_dict_header"
+    },
+    {
+      "source": "_basic_auth_str",
+      "target": "to_native_string"
+    },
+    {
+      "source": "TestRequests.test_respect_proxy_env_on_send_session_prepared_request",
+      "target": "override_environ"
+    },
+    {
+      "source": "TestRequests.test_respect_proxy_env_on_send_session_prepared_request",
+      "target": "httpbin"
+    },
+    {
+      "source": "test_super_len_with_no_matches",
+      "target": "super_len"
+    },
+    {
+      "source": "test_prepend_scheme_if_needed",
+      "target": "prepend_scheme_if_needed"
+    },
+    {
+      "source": "test_get_encoding_from_headers",
+      "target": "get_encoding_from_headers"
+    },
+    {
+      "source": "test__parse_content_type_header",
+      "target": "_parse_content_type_header"
+    },
+    {
+      "source": "test_requote_uri_with_unquoted_percents",
+      "target": "requote_uri"
+    },
+    {
+      "source": "test_should_bypass_proxies_pass_only_hostname",
+      "target": "should_bypass_proxies"
+    },
+    {
+      "source": "TestRequests.test_respect_proxy_env_on_send_with_redirects",
+      "target": "override_environ"
+    },
+    {
+      "source": "TestRequests.test_respect_proxy_env_on_send_with_redirects",
+      "target": "httpbin"
+    },
+    {
+      "source": "TestRequests.test_cookielib_cookiejar_on_redirect",
+      "target": "cookiejar_from_dict"
+    },
+    {
+      "source": "TestRequests.test_cookielib_cookiejar_on_redirect",
+      "target": "httpbin"
+    },
+    {
+      "source": "test_file",
+      "target": "super_len"
+    }
+  ]
+}

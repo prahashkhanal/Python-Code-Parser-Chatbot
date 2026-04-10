@@ -40,7 +40,7 @@ def ask_llama(prompt):
 
 
 # 🔥 MAIN FEATURE
-def generate_project_insight():
+def generate_project_summary():
 
     conn = sqlite3.connect("project_knowledge.db")
     cursor = conn.cursor()
@@ -114,7 +114,7 @@ def home():
 
 @app.route("/project_insight")
 def project_insight():
-    result = generate_project_insight()
+    result = generate_project_summary()   # update this call too
     return jsonify({"result": result})
 
 
@@ -360,3 +360,14 @@ def analyze_repo():
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=False)
 
+from flask import Flask, render_template, send_from_directory
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/graph_json")
+def graph_json():
+    return send_from_directory("static", "graph_data.json")
