@@ -360,11 +360,3 @@ def analyze_repo():
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=False)
 
-@app.route("/chat", methods=["POST"])
-def chat():
-    data = request.get_json()
-    user_input = data["message"]
-
-    response = search(user_input)  # or your logic
-
-    return jsonify({"response": response})
