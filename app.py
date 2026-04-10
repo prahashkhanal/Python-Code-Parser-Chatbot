@@ -1,3 +1,5 @@
+print("Starting the Python Code Parser Chatbot...")
+
 from parser.ast_parser import analyze_directory
 from storage.database import create_tables, insert_file, insert_function
 
